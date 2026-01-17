@@ -1,0 +1,14 @@
+[
+    {
+        "email": "yuri.grillo@teste.com",
+        "senha": "123456"
+    },
+    {
+        "email": "yuri.grillo@email.com",
+        "senha": "123456"
+    },
+    {
+        "email": "yuri.grillo@teste.com",
+        "senha": "teste"
+    }
+]

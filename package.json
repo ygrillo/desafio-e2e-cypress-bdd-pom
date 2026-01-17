@@ -1,0 +1,24 @@
+{
+  "name": "desafio-e2e-cypress-bdd-pom",
+  "version": "1.0.0",
+  "description": "Desafio técnico para demonstrar minhas habilidades ao criar testes E2E usando Cypress e Cucumber (Gherkin) e usando POM para organização do projeto.",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:login": "cypress run --spec cypress/e2e/features/login.feature",
+    "cy:login:sucesso": "cypress run --spec cypress/e2e/features/login.feature --env tags=@login_sucesso"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^24.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "cypress": "^15.9.0",
+    "cypress-mochawesome-reporter": "^4.0.2"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true,
+    "stepDefinitions": "cypress/support/step_definitions/**/*.js"
+  }
+}
