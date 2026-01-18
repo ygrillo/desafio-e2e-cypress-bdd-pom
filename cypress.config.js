@@ -5,6 +5,9 @@ const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor
 
 module.exports = defineConfig({
   e2e: {
+    env: {
+      tags: process.env.CYPRESS_TAGS || '@smoke',
+    },
     async setupNodeEvents(on, config) {
       await addCucumberPreprocessorPlugin(on, config);
       require("cypress-mochawesome-reporter/plugin")(on);
