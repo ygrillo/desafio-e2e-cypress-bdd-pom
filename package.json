@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
+    "cy:cadastro": "cypress run --spec cypress/e2e/features/cadastro.feature",
     "cy:login": "cypress run --spec cypress/e2e/features/login.feature",
-    "cy:login:sucesso": "cypress run --spec cypress/e2e/features/login.feature --env tags=@login_sucesso"
+    "cy:carrinho": "cypress run --spec cypress/e2e/features/carrinho.feature",
+    "cy:login:sucesso": "cypress run --spec cypress/e2e/features/login.feature --env tags=@login_sucesso",
+    "test:api": "newman run ./tests/api/automation_exercise.postman_collection.json -e ./tests/api/Dev.postman_environment.json -r htmlextra",
+    "test:e2e": "cypress run",
+    "test:full": "npm run test:api && npm run test:e2e"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +20,9 @@
     "@badeball/cypress-cucumber-preprocessor": "^24.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
     "cypress": "^15.9.0",
-    "cypress-mochawesome-reporter": "^4.0.2"
+    "cypress-mochawesome-reporter": "^4.0.2",
+    "newman": "^6.2.2",
+    "newman-reporter-htmlextra": "^1.23.1"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,

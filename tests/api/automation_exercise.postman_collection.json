@@ -1,0 +1,227 @@
+{
+  "info": {
+    "_postman_id": "72929c87-568c-4de5-a36b-0a2cdb97a1b3",
+    "name": "Desafio QA - Automation Exercise",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32138158"
+  },
+  "item": [
+    {
+      "name": "GET - Listar Produtos",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code é 200\", () => {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Content-Type é text/html com charset UTF-8\", () => {",
+              "    pm.response.to.have.header(\"Content-Type\");",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html; charset=utf-8\");",
+              "});",
+              "",
+              "pm.test(\"Cada product tem campos obrigatórios\", () => {",
+              "    const jsonData = pm.response.json();",
+              "    jsonData.products.forEach((product, _) => {",
+              "        pm.expect(product).to.have.property(\"id\").that.is.a(\"number\");",
+              "        pm.expect(product).to.have.property(\"name\").that.is.a(\"string\").and.is.not.empty;",
+              "        pm.expect(product).to.have.property(\"price\").that.matches(/Rs\\.\\s*\\d+/);",
+              "        pm.expect(product).to.have.property(\"brand\").that.is.a(\"string\").and.is.not.empty;",
+              "        pm.expect(product).to.have.property(\"category\").that.is.an(\"object\");",
+              "        pm.expect(product.category).to.have.property(\"usertype\").that.is.an(\"object\");",
+              "        pm.expect(product.category.usertype).to.have.property(\"usertype\").that.is.a(\"string\");",
+              "        pm.expect(product.category).to.have.property(\"category\").that.is.a(\"string\");",
+              "    });",
+              "});",
+              "",
+              "pm.test(\"Validações específicas por categoria\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    const womenProducts = jsonData.products.filter(p => ",
+              "        p.category.usertype.usertype === \"Women\"",
+              "    );",
+              "    const menProducts = jsonData.products.filter(p => ",
+              "        p.category.usertype.usertype === \"Men\"",
+              "    );",
+              "    const kidsProducts = jsonData.products.filter(p => ",
+              "        p.category.usertype.usertype === \"Kids\"",
+              "    );",
+              "    ",
+              "    pm.expect(womenProducts.length).to.be.above(5, \"Deve ter vários produtos Women\");",
+              "    pm.expect(menProducts.length).to.be.above(2, \"Deve ter produtos Men\");",
+              "    pm.expect(kidsProducts.length).to.be.above(5, \"Deve ter produtos Kids\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/productsList",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "productsList"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar todas as marcas",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code é 200\", () => {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Validar estrutura da lista de marcas\", function () {",
+              "    const json = pm.response.json();",
+              "",
+              "    pm.expect(json).to.have.property(\"responseCode\", 200);",
+              "",
+              "    pm.expect(json.brands).to.be.an(\"array\");",
+              "",
+              "    pm.expect(json.brands[0]).to.have.property(\"id\");",
+              "    pm.expect(json.brands[0]).to.have.property(\"brand\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/brandsList",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "brandsList"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verificar Login Válido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Validar sucesso no login\", function () {",
+              "    const json = pm.response.json();",
+              "    ",
+              "    pm.expect(json).to.have.property(\"responseCode\", 200);",
+              "    pm.expect(json).to.have.property(\"message\", \"User exists!\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "yuri.grillo@email.com",
+              "type": "text",
+              "uuid": "f9c28e01-9d2b-4b6d-85c3-c550c2c25bc4"
+            },
+            {
+              "key": "password",
+              "value": "teste",
+              "type": "text",
+              "uuid": "2c1e7cae-d5d2-4cde-81cd-4a4297ddf71b"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/verifyLogin",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "verifyLogin"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "post_id",
+      "value": ""
+    }
+  ]
+}
