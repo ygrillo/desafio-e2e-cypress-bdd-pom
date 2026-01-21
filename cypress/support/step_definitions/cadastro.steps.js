@@ -1,5 +1,6 @@
 import { Given, When, Then, Before } from '@badeball/cypress-cucumber-preprocessor';
 import { CadastroPage } from '../pages/cadastroPages';
+import { faker } from '@faker-js/faker/locale/pt_BR';
 
 const cadastroPage = new CadastroPage();
 
@@ -14,12 +15,10 @@ Given('que estou na página de cadastro', () => {
 });
 
 When('eu preencho o nome e email', () => {
-    cy.fixture('usuarios-cadastro.json').as('usuariosCadastro');
-    cy.get('@usuariosCadastro').then((usuarios) => {
-        const usuario = usuarios[0];
-        cadastroPage.fillName(usuario.name);
-        cadastroPage.fillEmail(usuario.email);
-    })
+    const personFirstName = faker.person.firstName();
+    const personLastName = faker.person.lastName();
+    cadastroPage.fillName(faker.person.fullName({ firstName: personFirstName, lastName: personLastName }));
+    cadastroPage.fillEmail(faker.internet.email({ firstName: personFirstName, lastName: personLastName }));
 });
 
 When('eu clico no botão de submeter', () => {
