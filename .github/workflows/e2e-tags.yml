@@ -34,7 +34,7 @@ jobs:
         if: always()
         with:
           name: cypress-login-reports
-          path: cypress/mochawesome-report/
+          path: cypress/reports/
 
   e2e-cadastro:
     runs-on: ubuntu-latest
