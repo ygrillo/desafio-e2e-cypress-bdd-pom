@@ -14,7 +14,7 @@ Given('que estou na página de login', () => {
 });
 
 When('eu digito o e-mail e senha válidos', (fixtureFile) => {
-        loginPage.login(Cypress.env('user_email'), Cypress.env('user_password'));
+        loginPage.login('yuri.grillo@email.com', 'teste');
     });
 
 When('eu digito o e-mail e senha inválidos', (fixtureFile) => {
